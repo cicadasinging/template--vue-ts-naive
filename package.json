@@ -1,5 +1,5 @@
 {
-  "name": "template--vue-ts",
+  "name": "template--vue-ts-naive",
   "version": "0.0.0",
   "private": true,
   "scripts": {

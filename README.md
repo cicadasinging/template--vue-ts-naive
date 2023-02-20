@@ -1,6 +1,6 @@
-# template--vue-ts
+# template--vue-ts-naive
 
-模版仓库，技术栈：Vue 全家桶、TypeScript。
+模版仓库，技术栈：Vue 全家桶、TypeScript、Naive UI。
 
 ## Project Setup
 
@@ -34,118 +34,45 @@ pnpm lint
 
 ## Template Setup
 
-### Vue([vuejs](https://github.com/vuejs)/**[create-vue](https://github.com/vuejs/create-vue)**)
+### [Naive UI](https://www.naiveui.com/zh-CN/os-theme/docs/installation)
 
 ```sh
-pnpm create vue@3
+pnpm add -D naive-ui
 ```
 
-### [antfu](https://github.com/antfu)(**[unplugin-auto-import](https://github.com/antfu/unplugin-auto-import)**,**[unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)**)
+#### [07akioni](https://github.com/07akioni)/**[vfonts](https://github.com/07akioni/vfonts)**
 
 ```sh
-pnpm add -D unplugin-auto-import unplugin-vue-components
-```
-
-【问题】ESLint error of `no-undef`(`'module' is not defined`)
-
-【解决】`.eslintrc.cjs`:
-
-```javascript
-module.exports = {
-  env: {
-    node: true,
-  },
-};
-```
-
-【问题】ESLint error of `no-undef`(`'ref' is not defined`)
-
-【解决】`.eslintrc.cjs`:
-
-```javascript
-module.exports = {
-  extends: [
-    ".eslintrc-auto-import.json"
-  ],
-};
-```
-
-【问题】`Unknown html tag HelloWorld`、`TS2304: Cannot find name 'ref'.`
-
-【解决】`tsconfig.app.json`:
-
-```json
-{
-  "include": [
-    "auto-imports.d.ts",
-    "components.d.ts"
-  ]
-}
-```
-
-### [antfu](https://github.com/antfu)([unocss](https://github.com/unocss)/**[unocss](https://github.com/unocss/unocss)**)
-
-```sh
-pnpm add -D unocss @unocss/preset-uno @unocss/preset-attributify @unocss/preset-icons @iconify-json/fluent-emoji-flat @iconify-json/ion @iconify-json/logos
+pnpm add -D vfonts
 ```
 
 `main.ts`:
 
 ```typescript
-import "uno.css";
+// 通用字体
+import "vfonts/Lato.css";
+// 等宽字体
+// import "vfonts/FiraCode.css";
 ```
 
-### [antfu](https://github.com/antfu)([vueuse](https://github.com/vueuse)/**[vueuse](https://github.com/vueuse/vueuse)**)
+#### [07akioni](https://github.com/07akioni)/**[xicons](https://github.com/07akioni/xicons)**
 
-```sh
-pnpm add @vueuse/core @vueuse/integrations
-pnpm add axios date-fns fuse.js
+```
+pnpm add -D @vicons/fluent
 ```
 
-## Git Setup
+`vite.config.ts`:
 
-### [leoforfree](https://github.com/leoforfree)/**[cz-customizable](https://github.com/leoforfree/cz-customizable)**
+```typescript
+const _regexp = new RegExp("^[A-Z][a-zA-Z]*([a-z][1-9]\\d[A-Z])[a-zA-Z]*[a-z]$");
 
-```sh
-pnpm add -D cz-customizable
-```
-
-`package.json`:
-
-```json
-{
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-customizable"
-    }
-  }
-}
-```
-
-`.cz-config.js`
-
-### [commitizen](https://github.com/commitizen)/**[cz-cli](https://github.com/commitizen/cz-cli)**
-
-```sh
-pnpm add -D commitizen
-npm pkg set scripts.commit="cz"
-```
-
-### [conventional-changelog](https://github.com/conventional-changelog)/**[commitlint](https://github.com/conventional-changelog/commitlint)**
-
-```sh
-pnpm add -D @commitlint/config-conventional @commitlint/cli
-```
-
-`.commitlintrc.js`
-
-### [typicode](https://github.com/typicode)/**[husky](https://github.com/typicode/husky)**
-
-```sh
-pnpm add -D husky
-npm pkg set scripts.prepare="husky install"
-git init
-pnpm prepare
-npx husky add .husky/commit-msg  "pnpm exec commitlint --edit"
-npx husky add .husky/pre-commit  "pnpm lint && pnpm type-check"
+export default defineConfig(() => {
+  return {
+    plugins: [
+      Components({
+        resolvers: [(name) => (_regexp.test(name) ? { name, from: "@vicons/fluent" } : "")],
+      }),
+    ],
+  };
+});
 ```

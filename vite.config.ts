@@ -3,7 +3,7 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
-// import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
+import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import Unocss from "unocss/vite";
 import { presetAttributify, presetIcons, presetUno } from "unocss";
 
@@ -34,13 +34,16 @@ export default defineConfig(({ mode }) => {
           {
             "date-fns": ["addDays", "isBefore"],
           },
+          {
+            "naive-ui": ["createDiscreteApi"],
+          },
         ],
         dirs: ["src/api/**", "src/composable/**", "src/constant/**", "src/router/**", "src/stores/**", "src/utils/**"],
         dts: true,
         eslintrc: { enabled: true },
       }),
       Components({
-        // resolvers: [NaiveUiResolver()],
+        resolvers: [NaiveUiResolver()],
         dirs: ["src/components/**"],
         dts: true,
       }),
